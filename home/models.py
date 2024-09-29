@@ -12,6 +12,11 @@ class Category(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __iter__(self):
+        dishes = self.dishes.filter(is_visible=True).order_by('sort')
+        for dish in dishes:
+            yield dish
+
     def __str__(self):
         return self.name
 
@@ -30,7 +35,7 @@ class Dish(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='dishes')
 
     def __str__(self):
         return self.name
