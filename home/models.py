@@ -1,6 +1,6 @@
 from django.db import models
-
-
+from ckeditor.fields import RichTextField
+from django.core.validators import RegexValidator
 # Create your models here.
 class Category(models.Model):
     slug = models.SlugField(max_length=50, unique=True)
@@ -61,19 +61,40 @@ class Staff(models.Model):
         return self.name
 
 class Gallery(models.Model):
-    image = models.ImageField(upload_to='galleries', blank=True, null=True)
+    name = models.CharField(max_length=250)
+    photo = models.ImageField(upload_to='gallery')
+    is_visible = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.image
+        return self.name
+
 
 class Contact(models.Model):
-    address = models.CharField(max_length=255)
+     item_title = models.CharField(max_length=50)
+     item_description = RichTextField()
+     item_icon = models.CharField(max_length=50)
+
+     created_at = models.DateTimeField(auto_now_add=True)
+     updated_at = models.DateTimeField(auto_now=True)
+     def __str__(self):
+         return self.item_title
+
+
+class Reservation(models.Model):
+    phone_regex = RegexValidator(regex=r'^\+?3?\d{9,15}$',
+    message='Phone number must be entered in the format: +39999999999')
+
+    name = models.CharField(max_length=150)
+    phone = models.CharField(max_length=150, validators=[phone_regex])
     email = models.EmailField()
-    phone = models.CharField(max_length=15)
-    opening_hours = models.TextField()
-
+    date = models.DateField()
+    time = models.TimeField()
+    people = models.IntegerField()
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
-        return self.address
-
-
+        return self.name
 
