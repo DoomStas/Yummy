@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Dish, Gallery, Contact, Staff, Event
+from .models import Category, Dish, Gallery, Contact, Staff, Event, Reservation, FooterItem
 # Register your models here.
 
 
@@ -16,4 +16,6 @@ admin.site.register(Gallery)
 admin.site.register(Contact)
 admin.site.register(Staff)
 admin.site.register(Event)
+admin.site.register(Reservation)
+admin.site.register(FooterItem)
 

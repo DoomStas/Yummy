@@ -1,6 +1,19 @@
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.core.validators import RegexValidator
+
+
+
+class FooterItem(models.Model):
+    item_title = models.CharField(max_length=50)
+    item_description = RichTextField()
+    item_icon = models.CharField(max_length=100, null= True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+
 # Create your models here.
 class Category(models.Model):
     slug = models.SlugField(max_length=50, unique=True)
@@ -95,6 +108,7 @@ class Reservation(models.Model):
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_processed = models.BooleanField(default=False)
     def __str__(self):
         return self.name
 
