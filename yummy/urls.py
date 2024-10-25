@@ -17,15 +17,21 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from home.views import index
 from django.conf.urls.static import static
-
+from account.views import UserLogin, UserRegister, logout
+from home.views import thanks
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('thanks/', thanks, name='thanks'),
+    path('manager/', include('manager.urls')),
 
-    path('', index),
+    path('', index, name='index'),
+    path('login/', UserLogin.as_view(), name='login'),
+    path('logout/', logout, name='logout'),
+    path('register/', UserRegister.as_view(), name='register'),
 ]
 
 if settings.DEBUG:

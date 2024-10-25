@@ -1,6 +1,6 @@
 from lib2to3.fixes.fix_input import context
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Category, Dish, Gallery
 from .forms import ReservationForm
 
@@ -10,7 +10,7 @@ def index(request):
         book_table_form = ReservationForm(request.POST)
         if book_table_form.is_valid():
             book_table_form.save()
-            return render(request, 'thanks.html')
+            return redirect('thanks')
 
 
     categories = Category.objects.filter(is_visible=True).order_by('sort')
@@ -24,3 +24,7 @@ def index(request):
     }
 
     return render(request, 'index.html', context)
+
+
+def thanks(request):
+    return render(request, 'thanks.html')
